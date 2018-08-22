@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('H/5 8-16 * * 1-5')
+    }
+
     stages {
         stage('Run Unit Tests') {
             steps {
