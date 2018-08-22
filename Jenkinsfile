@@ -25,10 +25,10 @@ pipeline {
                 }
             }
         }
-        stage('Build Container Image') {
+        stage('Build Image') {
             steps {
                 withMaven(maven: 'M3') {
-                    sh "mvn dockerfile:build dockerfile:tag@version -DskipTests"
+                    sh "mvn dockerfile:build@version dockerfile:tag@latest -DskipTests"
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
             steps {
                 withMaven(maven: 'M3') {
                     withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                        sh "mvn dockerfile:push@tag-latest dockerfile:push@version -DskipTests -Ddockerfile.username=$DOCKER_HUB_USERNAME -Ddockerfile.password=$DOCKER_HUB_PASSWORD"
+                        sh "mvn dockerfile:push@version dockerfile:push@latest -DskipTests -Ddockerfile.username=$DOCKER_HUB_USERNAME -Ddockerfile.password=$DOCKER_HUB_PASSWORD"
                     }
                 }
             }
