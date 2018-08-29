@@ -15,18 +15,23 @@ public class MessageController {
         this.messageRepository = messageRepository;
     }
 
-    @GetMapping("/messages")
-    public List<Message> messages() {
+    @GetMapping("/v1/messages")
+    public List<Message> getMessages() {
         return messageRepository.findAll();
     }
 
-    @PostMapping("/messages")
-    public Message message(@RequestBody Message message) {
-        return messageRepository.save(message);
+    @GetMapping("/v1/messages/{language}")
+    public Message getMessage(@PathVariable("language") String language) {
+        return messageRepository.findByLanguage(language).orElseThrow(ResourceNotFoundException::new);
     }
 
-    @GetMapping("/messages/{language}")
-    public Message message(@PathVariable("language") String language) {
-        return messageRepository.findByLanguage(language).orElseThrow(ResourceNotFoundException::new);
+    @PutMapping("/v1/messages/{language}")
+    public Message putMessage(@PathVariable("language") String language, @RequestBody Message message) {
+        return messageRepository.findByLanguage(language).orElseGet(() -> messageRepository.save(message));
+    }
+
+    @DeleteMapping("/v1/messages/{language}")
+    public void deleteMessage(@PathVariable("language") String language) {
+        messageRepository.findByLanguage(language).ifPresent(messageRepository::delete);
     }
 }
