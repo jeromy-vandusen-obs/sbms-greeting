@@ -23,6 +23,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
+        <skipUnitTests>false</skipUnitTests>
+        <skipContractTests>false</skipContractTests>
+
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
 
         <dockerfile-maven-plugin.version>1.4.3</dockerfile-maven-plugin.version>
@@ -99,6 +102,34 @@
                 <configuration>
                     <packageWithBaseClasses>com.sbms.greeting.contracts</packageWithBaseClasses>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>${skipUnitTests}</skip>
+                    <excludes>
+                        <exclude>com/sbms/greeting/contracts/**/*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skip>${skipContractTests}</skip>
+                    <includes>
+                        <include>com/sbms/greeting/contracts/**/*</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
