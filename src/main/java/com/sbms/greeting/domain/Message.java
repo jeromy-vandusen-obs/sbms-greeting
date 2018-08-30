@@ -2,6 +2,8 @@ package com.sbms.greeting.domain;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.Objects;
+
 public class Message {
     @Id
     private String id;
@@ -42,5 +44,21 @@ public class Message {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return Objects.equals(id, message.id) &&
+                Objects.equals(language, message.language) &&
+                Objects.equals(content, message.content);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, language, content);
     }
 }

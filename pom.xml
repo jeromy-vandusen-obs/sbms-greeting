@@ -29,6 +29,7 @@
         <docker-image.prefix>jvandusen</docker-image.prefix>
         <!-- Upgrade Maven Surefire plugin to avoid issues when building on Jenkins running in an Alpine-based Docker image. -->
         <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+        <spring-cloud-contract.version>2.0.1.RELEASE</spring-cloud-contract.version>
     </properties>
 
     <dependencies>
@@ -60,6 +61,15 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-contract-verifier</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -79,6 +89,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+                <version>${spring-cloud-contract.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <packageWithBaseClasses>com.sbms.greeting.contracts</packageWithBaseClasses>
+                </configuration>
             </plugin>
 
             <plugin>
