@@ -7,9 +7,6 @@ Contract.make {
     request {
         method 'GET'
         url '/v1/messages/en'
-        headers {
-            contentType(applicationJson())
-        }
     }
     response {
         status OK()

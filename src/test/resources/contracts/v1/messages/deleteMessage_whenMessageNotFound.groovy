@@ -7,9 +7,6 @@ Contract.make {
     request {
         method 'DELETE'
         url '/v1/messages/ru'
-        headers {
-            contentType(applicationJson())
-        }
     }
     response {
         status NOT_FOUND()
