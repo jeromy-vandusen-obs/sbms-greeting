@@ -30,6 +30,16 @@ pipeline {
                 sh "mvn package -DskipTests -DbuildNumber=$BUILD_NUMBER"
             }
         }
+        stage('Run Integration Tests') {
+            steps {
+                sh "mvn verify -DskipUnitTests -DbuildNumber=$BUILD_NUMBER"
+            }
+            post {
+                always {
+                    junit "target/failsafe-reports/*.xml"
+                }
+            }
+        }
         stage('Build Image') {
             steps {
                 sh "mvn dockerfile:build@version dockerfile:tag@latest -DskipTests -DbuildNumber=$BUILD_NUMBER"
