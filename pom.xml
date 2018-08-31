@@ -24,7 +24,7 @@
         <java.version>1.8</java.version>
 
         <skipUnitTests>false</skipUnitTests>
-        <skipContractTests>false</skipContractTests>
+        <skipIntegrationTests>false</skipIntegrationTests>
 
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
 
@@ -100,7 +100,7 @@
                 <version>${spring-cloud-contract.version}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <packageWithBaseClasses>com.sbms.greeting.contracts</packageWithBaseClasses>
+                    <packageWithBaseClasses>com.sbms.greeting.integration.contracts</packageWithBaseClasses>
                 </configuration>
             </plugin>
 
@@ -109,7 +109,7 @@
                 <configuration>
                     <skip>${skipUnitTests}</skip>
                     <excludes>
-                        <exclude>com/sbms/greeting/contracts/**/*</exclude>
+                        <exclude>com/sbms/greeting/integration/**/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -117,9 +117,9 @@
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
-                    <skip>${skipContractTests}</skip>
+                    <skip>${skipIntegrationTests}</skip>
                     <includes>
-                        <include>com/sbms/greeting/contracts/**/*</include>
+                        <include>com/sbms/greeting/integration/**/*</include>
                     </includes>
                 </configuration>
                 <executions>

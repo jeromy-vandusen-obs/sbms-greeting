@@ -1,4 +1,4 @@
-package com.sbms.greeting.contracts;
+package com.sbms.greeting.integration.contracts;
 
 import com.sbms.greeting.api.MessageController;
 import com.sbms.greeting.domain.Message;
