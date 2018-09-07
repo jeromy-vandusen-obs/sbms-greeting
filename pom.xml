@@ -30,8 +30,9 @@
 
         <dockerfile-maven-plugin.version>1.4.3</dockerfile-maven-plugin.version>
         <docker-image.prefix>jvandusen</docker-image.prefix>
-        <!-- Upgrade Maven Surefire plugin to avoid issues when building on Jenkins running in an Alpine-based Docker image. -->
+        <!-- Upgrade Maven Surefire and Failsafe plugins to avoid issues when building on Jenkins running in an Alpine-based Docker image. -->
         <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
         <spring-cloud-contract.version>2.0.1.RELEASE</spring-cloud-contract.version>
     </properties>
 
