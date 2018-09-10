@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Run Unit Tests') {
             steps {
-                sh "mvn clean test -DbuildNumber=$BUILD_NUMBER"
+                sh "mvn clean test"
             }
             post {
                 always {
@@ -27,12 +27,12 @@ pipeline {
         }
         stage('Build Application') {
             steps {
-                sh "mvn package -DskipTests -DbuildNumber=$BUILD_NUMBER"
+                sh "mvn package -DskipTests"
             }
         }
         stage('Run Integration Tests') {
             steps {
-                sh "mvn verify -DskipUnitTests -DbuildNumber=$BUILD_NUMBER"
+                sh "mvn verify -DskipUnitTests"
             }
             post {
                 always {
@@ -42,18 +42,18 @@ pipeline {
         }
         stage('Install Contract Stubs') {
             steps {
-                sh "mvn install -DskipTests -DbuildNumber=$BUILD_NUMBER"
+                sh "mvn install -DskipTests"
             }
         }
         stage('Build Image') {
             steps {
-                sh "mvn dockerfile:build@version dockerfile:tag@latest -DskipTests -DbuildNumber=$BUILD_NUMBER"
+                sh "mvn dockerfile:build@version dockerfile:tag@latest -DskipTests"
             }
         }
         stage('Push Image to Registry') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                    sh "mvn dockerfile:push@version dockerfile:push@latest -DskipTests -DbuildNumber=$BUILD_NUMBER -Ddockerfile.username=$DOCKER_HUB_USERNAME -Ddockerfile.password=$DOCKER_HUB_PASSWORD"
+                    sh "mvn dockerfile:push@version dockerfile:push@latest -DskipTests -Ddockerfile.username=$DOCKER_HUB_USERNAME -Ddockerfile.password=$DOCKER_HUB_PASSWORD"
                 }
             }
         }
