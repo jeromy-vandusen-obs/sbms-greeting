@@ -40,6 +40,11 @@ pipeline {
                 }
             }
         }
+        stage('Install Contract Stubs') {
+            steps {
+                sh "mvn install -DskipTests -DbuildNumber=$BUILD_NUMBER"
+            }
+        }
         stage('Build Image') {
             steps {
                 sh "mvn dockerfile:build@version dockerfile:tag@latest -DskipTests -DbuildNumber=$BUILD_NUMBER"
