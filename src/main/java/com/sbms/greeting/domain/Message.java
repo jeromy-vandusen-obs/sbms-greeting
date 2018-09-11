@@ -1,9 +1,11 @@
 package com.sbms.greeting.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
 
+@Document(collection = "messages")
 public class Message {
     @Id
     private String id;
