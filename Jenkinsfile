@@ -68,5 +68,11 @@ pipeline {
         always {
             sh "mvn versions:revert"
         }
+        success {
+            slackSend "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Succeeded"
+        }
+        failure {
+            slackSend "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: :fire: Failed :fire:"
+        }
     }
 }
