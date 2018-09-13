@@ -9,6 +9,12 @@ pipeline {
         maven 'M3'
     }
 
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+        disableConcurrentBuilds()
+        timeout(time: 15, unit: 'MINUTES')
+    }
+
     stages {
         stage('Set Version') {
             steps {
