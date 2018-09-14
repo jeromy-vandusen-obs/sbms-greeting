@@ -1,3 +1,5 @@
+@Library('sbms-pipeline-shared@master') _
+
 pipeline {
     agent any
 
@@ -69,10 +71,10 @@ pipeline {
             sh "mvn versions:revert"
         }
         success {
-            slackSend "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Succeeded"
+            notify('', 'Succeeded')
         }
         failure {
-            slackSend "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: :fire: Failed :fire:"
+            notify('FAIL', 'Failed')
         }
     }
 }
