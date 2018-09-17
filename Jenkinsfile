@@ -17,6 +17,11 @@ pipeline {
         timeout(time: 15, unit: 'MINUTES')
     }
 
+    environment {
+        DOCKER_HOST = "tcp://localhost:2375"
+        DOCKER_CERT_PATH = ""
+    }
+
     stages {
         stage('Set Version') {
             steps {
