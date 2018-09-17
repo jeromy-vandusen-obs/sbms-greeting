@@ -19,6 +19,7 @@ pipeline {
 
     environment {
         DOCKER_HOST = "unix:///var/run/docker.sock"
+        DOCKER_TLS_VERIFY = "0"
         DOCKER_CERT_PATH = ""
     }
 
