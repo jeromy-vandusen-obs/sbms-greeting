@@ -13,7 +13,7 @@ public class IdentityController {
     @Value("${build.version}")
     private String buildVersion;
 
-    @GetMapping("/identity")
+    @GetMapping("/v1/identity")
     public Identity identity() {
         return new Identity(applicationName, buildVersion);
     }
