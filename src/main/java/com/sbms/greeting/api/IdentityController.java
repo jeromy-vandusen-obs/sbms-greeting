@@ -20,7 +20,7 @@ public class IdentityController {
         this.apiLevel = apiScanner.getApiLevel();
     }
 
-    @GetMapping("/v1/identity")
+    @GetMapping("/identity")
     public Identity identity() {
         return new Identity(applicationName, buildVersion, apiLevel);
     }
