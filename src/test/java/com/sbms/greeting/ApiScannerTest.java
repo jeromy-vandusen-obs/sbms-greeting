@@ -24,7 +24,7 @@ public class ApiScannerTest {
 
         assertThat(result).isNotNull().isNotEmpty().containsExactly(
                 "/api (GET)",
-                "/v1/identity (GET)",
+                "/identity (GET)",
                 "/v1/messages (GET)",
                 "/v1/messages/{language} (DELETE)",
                 "/v1/messages/{language} (GET)",
