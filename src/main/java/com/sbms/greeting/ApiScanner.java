@@ -7,76 +7,94 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 public class ApiScanner {
-    private final int apiVersion;
+    private final List<String> api;
+
+    private final int apiLevel;
 
     public ApiScanner() {
-        this.apiVersion = determineApiVersion();
+        this.api = determineApi();
+        this.apiLevel = determineApiLevel(api);
+    }
+
+    public List<String> getApi() {
+        return api;
     }
 
     public int getApiLevel() {
-        return apiVersion;
+        return apiLevel;
     }
 
-    private int determineApiVersion() {
+    private List<String> determineApi() {
+        List<String> api = new ArrayList<>();
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(RestController.class));
-        List<String> paths = new ArrayList<>();
         for (BeanDefinition beanDefinition : scanner.findCandidateComponents(this.getClass().getPackage().getName())) {
             try {
                 Class<?> beanClass = Class.forName(beanDefinition.getBeanClassName());
-                paths.addAll(findAllRequestMappingAnnotatedPaths(beanClass));
+                List<String> paths = findAllRequestMappingAnnotatedPaths(beanClass);
+                api.addAll(paths);
             }
             catch (ClassNotFoundException e) {
                 // This really should not be possible.
                 throw new RuntimeException(e);
             }
         }
-        return findHighestVersionInPaths(paths);
+        Collections.sort(api);
+        return api;
     }
 
     private List<String> findAllRequestMappingAnnotatedPaths(Class<?> beanClass) {
         return Arrays.stream(beanClass.getDeclaredMethods())
                 .map(this::extractAnnotatedPaths)
-                .flatMap(Arrays::stream)
+                .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
 
-    private String[] extractAnnotatedPaths(Method method) {
+    private List<String> extractAnnotatedPaths(Method method) {
         if (method.isAnnotationPresent(RequestMapping.class)) {
-            return method.getAnnotation(RequestMapping.class).path();
+            RequestMapping annotation = method.getAnnotation(RequestMapping.class);
+            return Arrays.stream(annotation.path().length == 0 ? annotation.value() : annotation.path())
+                    .map(path -> String.format("%s (%s)", path, Arrays.toString(annotation.method())))
+                    .collect(Collectors.toList());
         }
         if (method.isAnnotationPresent(GetMapping.class)) {
-            return method.getAnnotation(GetMapping.class).path();
+            GetMapping annotation = method.getAnnotation(GetMapping.class);
+            return Arrays.stream(annotation.path().length == 0 ? annotation.value() : annotation.path())
+                    .map(path -> String.format("%s (GET)", path))
+                    .collect(Collectors.toList());
         }
         if (method.isAnnotationPresent(PostMapping.class)) {
-            return method.getAnnotation(PostMapping.class).path();
+            PostMapping annotation = method.getAnnotation(PostMapping.class);
+            return Arrays.stream(annotation.path().length == 0 ? annotation.value() : annotation.path())
+                    .map(path -> String.format("%s (POST)", path))
+                    .collect(Collectors.toList());
         }
         if (method.isAnnotationPresent(PutMapping.class)) {
-            return method.getAnnotation(PutMapping.class).path();
+            PutMapping annotation = method.getAnnotation(PutMapping.class);
+            return Arrays.stream(annotation.path().length == 0 ? annotation.value() : annotation.path())
+                    .map(path -> String.format("%s (PUT)", path))
+                    .collect(Collectors.toList());
         }
         if (method.isAnnotationPresent(DeleteMapping.class)) {
-            return method.getAnnotation(DeleteMapping.class).path();
+            DeleteMapping annotation = method.getAnnotation(DeleteMapping.class);
+            return Arrays.stream(annotation.path().length == 0 ? annotation.value() : annotation.path())
+                    .map(path -> String.format("%s (DELETE)", path))
+                    .collect(Collectors.toList());
         }
-        return new String[] { "/v0/" };
-    }
-
-    private int findHighestVersionInPaths(List<String> paths) {
-        return paths.stream()
-                .mapToInt(this::extractVersionNumber)
-                .max()
-                .orElse(0);
+        return new ArrayList<>();
     }
 
     private int extractVersionNumber(String path) {
         int startIndex = path.indexOf("/") + 1;
         int endIndex = path.indexOf("/", startIndex);
+        if (endIndex < 0) {
+            return 0;
+        }
         String version = path.substring(startIndex, endIndex).replace("v", "");
         try {
             return Integer.valueOf(version);
@@ -84,5 +102,9 @@ public class ApiScanner {
         catch (NumberFormatException e) {
             return 0;
         }
+    }
+
+    private int determineApiLevel(List<String> api) {
+        return api.stream().mapToInt(this::extractVersionNumber).max().orElse(0);
     }
 }
