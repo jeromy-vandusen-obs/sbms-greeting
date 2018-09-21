@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Set Version') {
             steps {
-                mvn "versions:set -DnewVersion=\$(./mvnw help:evaluate -Dexpression=project.version | grep -e '^[^\\[]')-$BUILD_NUMBER"
+                mvn "versions:set -DnewVersion=\$(./mvnw help:evaluate -Dexpression=project.version | grep -e '^[^\\[\\/]')-$BUILD_NUMBER"
             }
         }
         stage('Run Unit Tests') {
