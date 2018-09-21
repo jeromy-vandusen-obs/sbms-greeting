@@ -28,3 +28,8 @@ in an endpoint path. For example, if the only endpoint defined in the service ha
 the API level is 1. If there are two endpoints with paths `/v1/getStuff` and `/v2/getNewerStuff`, then the API
 level is 2.
 * `/api`: provides a list of all endpoints defined for the server. This list _does not_ include Actuator endpoints.
+
+## To Do
+
+* Add security.
+* Add a dependent service and implement the `/dependencyHealth` endpoint.
