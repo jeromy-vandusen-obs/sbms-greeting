@@ -131,11 +131,12 @@ pipeline {
         }
         stage('Wait For Environment') {
             steps {
-                script {
-                    if (! waitUntilActive("$TEST_HOST", "$TEST_PORT", 10, 30)) {
-                        currentBuild.result = 'FAILED'
-                    }
-                }
+                // Temporarily skipping this and the next step...
+                //script {
+                //    if (! waitUntilActive("$TEST_HOST", "$TEST_PORT", 10, 30)) {
+                //        currentBuild.result = 'FAILED'
+                //    }
+                //}
             }
             post {
                 failure {
@@ -145,7 +146,8 @@ pipeline {
         }
         stage('Run Application Tests') {
             steps {
-                build('sbms-test')
+                // Temporarily skipping this and the previous step...
+                //build('sbms-test')
             }
         }
         stage ('Tag Tested Image') {
