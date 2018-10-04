@@ -89,12 +89,12 @@ pipeline {
 
                 SOURCE_IMAGE_TAG = "latest"
                 IMAGE_TAG = "dev"
-                STACK_NAME = "sbms-dev-app"
+                SERVICE_NAME = "sbms-dev-app_$JOB_NAME"
             }
             steps {
                 sh "docker pull $IMAGE_NAME:$SOURCE_IMAGE_TAG"
                 sh "docker tag $IMAGE_NAME:$SOURCE_IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG"
-                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $STACK_NAME"
+                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
                 withDockerRegistry([url: '', credentialsId: 'DOCKER_HUB_CREDENTIALS']) {
                     sh "docker push $IMAGE_NAME:$IMAGE_TAG"
                 }
@@ -113,12 +113,12 @@ pipeline {
 
                 SOURCE_IMAGE_TAG = "dev"
                 IMAGE_TAG = "test"
-                STACK_NAME = "sbms-test-app"
+                SERVICE_NAME = "sbms-test-app_$JOB_NAME"
             }
             steps {
                 sh "docker pull $IMAGE_NAME:$SOURCE_IMAGE_TAG"
                 sh "docker tag $IMAGE_NAME:$SOURCE_IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG"
-                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $STACK_NAME"
+                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
                 withDockerRegistry([url: '', credentialsId: 'DOCKER_HUB_CREDENTIALS']) {
                     sh "docker push $IMAGE_NAME:$IMAGE_TAG"
                 }
@@ -175,12 +175,12 @@ pipeline {
 
                 SOURCE_IMAGE_TAG = "test-passed"
                 IMAGE_TAG = "uat"
-                STACK_NAME = "sbms-uat-app"
+                SERVICE_NAME = "sbms-uat-app_$JOB_NAME"
             }
             steps {
                 sh "docker pull $IMAGE_NAME:$SOURCE_IMAGE_TAG"
                 sh "docker tag $IMAGE_NAME:$SOURCE_IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG"
-                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $STACK_NAME"
+                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
                 withDockerRegistry([url: '', credentialsId: 'DOCKER_HUB_CREDENTIALS']) {
                     sh "docker push $IMAGE_NAME:$IMAGE_TAG"
                 }
@@ -216,12 +216,12 @@ pipeline {
 
                 SOURCE_IMAGE_TAG = "rc"
                 IMAGE_TAG = "prod"
-                STACK_NAME = "sbms-prod-app"
+                SERVICE_NAME = "sbms-prod-app_$JOB_NAME"
             }
             steps {
                 sh "docker pull $IMAGE_NAME:$SOURCE_IMAGE_TAG"
                 sh "docker tag $IMAGE_NAME:$SOURCE_IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG"
-                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $STACK_NAME"
+                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
                 withDockerRegistry([url: '', credentialsId: 'DOCKER_HUB_CREDENTIALS']) {
                     sh "docker push $IMAGE_NAME:$IMAGE_TAG"
                 }
