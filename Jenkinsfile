@@ -42,11 +42,19 @@ pipeline {
                 always {
                     junit "target/surefire-reports/*.xml"
                 }
+                failure {
+                    notify('FAIL', 'Failed')
+                }
             }
         }
         stage('Build Application') {
             steps {
                 mvn "package -DskipTests"
+            }
+            post {
+                failure {
+                    notify('FAIL', 'Failed')
+                }
             }
         }
         stage('Run Integration Tests') {
@@ -57,16 +65,29 @@ pipeline {
                 always {
                     junit "target/failsafe-reports/*.xml"
                 }
+                failure {
+                    notify('FAIL', 'Failed')
+                }
             }
         }
         stage('Install Contract Stubs') {
             steps {
                 mvn "install -DskipTests"
             }
+            post {
+                failure {
+                    notify('FAIL', 'Failed')
+                }
+            }
         }
         stage('Build Image') {
             steps {
                 mvn "dockerfile:build@version dockerfile:tag@latest -DskipTests"
+            }
+            post {
+                failure {
+                    notify('FAIL', 'Failed')
+                }
             }
         }
         stage('Push Image to Registry') {
@@ -75,10 +96,20 @@ pipeline {
                     mvn "dockerfile:push@version dockerfile:push@latest -DskipTests -Ddockerfile.username=$DOCKER_HUB_USERNAME -Ddockerfile.password=$DOCKER_HUB_PASSWORD"
                 }
             }
+            post {
+                failure {
+                    notify('FAIL', 'Failed')
+                }
+            }
         }
         stage('Tag Commit') {
             steps {
                 echo "TODO: Tag commit: $GIT_COMMIT"
+            }
+            post {
+                failure {
+                    notify('FAIL', 'Failed')
+                }
             }
         }
         stage('Deploy to DEV') {
@@ -148,6 +179,11 @@ pipeline {
             steps {
                 echo "Temporarily skipping this and the previous step..."
                 //build('sbms-test')
+            }
+            post {
+                failure {
+                    notify('FAIL', 'Failed')
+                }
             }
         }
         stage ('Tag Tested Image') {

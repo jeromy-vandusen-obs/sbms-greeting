@@ -13,7 +13,7 @@ public class ApiScannerTest {
 
         int result = apiScanner.getApiLevel();
 
-        assertThat(result).isEqualTo(2);
+        assertThat(result).isEqualTo(1);
     }
 
     @Test
@@ -28,7 +28,6 @@ public class ApiScannerTest {
                 "/v1/messages (GET)",
                 "/v1/messages/{language} (DELETE)",
                 "/v1/messages/{language} (GET)",
-                "/v1/messages/{language} (PUT)",
-                "/v2/messages (GET)");
+                "/v1/messages/{language} (PUT)");
     }
 }

@@ -19,7 +19,7 @@ public class MessageController {
         this.messageRepository = messageRepository;
     }
 
-    @GetMapping(path = {"/v1/messages", "/v2/messages"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/v1/messages", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Message> getMessages() {
         return messageRepository.findAll();
     }
