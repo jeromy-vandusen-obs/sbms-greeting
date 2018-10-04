@@ -94,10 +94,10 @@ pipeline {
             steps {
                 sh "docker pull $IMAGE_NAME:$SOURCE_IMAGE_TAG"
                 sh "docker tag $IMAGE_NAME:$SOURCE_IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG"
-                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
                 withDockerRegistry([url: '', credentialsId: 'DOCKER_HUB_CREDENTIALS']) {
                     sh "docker push $IMAGE_NAME:$IMAGE_TAG"
                 }
+                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
             }
             post {
                 failure {
@@ -118,10 +118,10 @@ pipeline {
             steps {
                 sh "docker pull $IMAGE_NAME:$SOURCE_IMAGE_TAG"
                 sh "docker tag $IMAGE_NAME:$SOURCE_IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG"
-                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
                 withDockerRegistry([url: '', credentialsId: 'DOCKER_HUB_CREDENTIALS']) {
                     sh "docker push $IMAGE_NAME:$IMAGE_TAG"
                 }
+                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
             }
             post {
                 failure {
@@ -180,10 +180,10 @@ pipeline {
             steps {
                 sh "docker pull $IMAGE_NAME:$SOURCE_IMAGE_TAG"
                 sh "docker tag $IMAGE_NAME:$SOURCE_IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG"
-                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
                 withDockerRegistry([url: '', credentialsId: 'DOCKER_HUB_CREDENTIALS']) {
                     sh "docker push $IMAGE_NAME:$IMAGE_TAG"
                 }
+                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
             }
             post {
                 failure {
@@ -221,10 +221,10 @@ pipeline {
             steps {
                 sh "docker pull $IMAGE_NAME:$SOURCE_IMAGE_TAG"
                 sh "docker tag $IMAGE_NAME:$SOURCE_IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG"
-                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
                 withDockerRegistry([url: '', credentialsId: 'DOCKER_HUB_CREDENTIALS']) {
                     sh "docker push $IMAGE_NAME:$IMAGE_TAG"
                 }
+                sh "docker service update --image $IMAGE_NAME:$IMAGE_TAG $SERVICE_NAME"
             }
             post {
                 failure {
