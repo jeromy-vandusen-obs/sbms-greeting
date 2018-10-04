@@ -131,7 +131,7 @@ pipeline {
         }
         stage('Wait For Environment') {
             steps {
-                // Temporarily skipping this and the next step...
+                echo "Temporarily skipping this and the next step..."
                 //script {
                 //    if (! waitUntilActive("$TEST_HOST", "$TEST_PORT", 10, 30)) {
                 //        currentBuild.result = 'FAILED'
@@ -146,7 +146,7 @@ pipeline {
         }
         stage('Run Application Tests') {
             steps {
-                // Temporarily skipping this and the previous step...
+                echo "Temporarily skipping this and the previous step..."
                 //build('sbms-test')
             }
         }
