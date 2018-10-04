@@ -21,9 +21,6 @@ pipeline {
         PROD_HOST = "prod"
 
         IMAGE_NAME = "$DOCKER_USERNAME/$JOB_NAME"
-
-        DOCKER_TLS_VERIFY = "1"
-        DOCKER_CERT_PATH = "/root/.tls"
     }
 
     stages {
@@ -87,6 +84,9 @@ pipeline {
         stage('Deploy to DEV') {
             environment {
                 DOCKER_HOST = "tcp://$DEV_HOST:2376"
+                DOCKER_TLS_VERIFY = "1"
+                DOCKER_CERT_PATH = "/root/.tls"
+
                 SOURCE_IMAGE_TAG = "latest"
                 IMAGE_TAG = "dev"
                 STACK_NAME = "sbms-dev-app"
@@ -108,6 +108,9 @@ pipeline {
         stage('Deploy to TEST') {
             environment {
                 DOCKER_HOST = "tcp://$TEST_HOST:2376"
+                DOCKER_TLS_VERIFY = "1"
+                DOCKER_CERT_PATH = "/root/.tls"
+
                 SOURCE_IMAGE_TAG = "dev"
                 IMAGE_TAG = "test"
                 STACK_NAME = "sbms-test-app"
@@ -165,6 +168,9 @@ pipeline {
         stage('Deploy to UAT') {
             environment {
                 DOCKER_HOST = "tcp://$UAT_HOST:2376"
+                DOCKER_TLS_VERIFY = "1"
+                DOCKER_CERT_PATH = "/root/.tls"
+
                 SOURCE_IMAGE_TAG = "test-passed"
                 IMAGE_TAG = "uat"
                 STACK_NAME = "sbms-uat-app"
@@ -203,6 +209,9 @@ pipeline {
         stage('Deploy to PROD') {
             environment {
                 DOCKER_HOST = "tcp://$PROD_HOST:2376"
+                DOCKER_TLS_VERIFY = "1"
+                DOCKER_CERT_PATH = "/root/.tls"
+
                 SOURCE_IMAGE_TAG = "rc"
                 IMAGE_TAG = "prod"
                 STACK_NAME = "sbms-prod-app"
