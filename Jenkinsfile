@@ -112,7 +112,7 @@ pipeline {
         }
         stage('Deploy to DEV') {
             steps {
-                promoteAndUpdateRunningImage("tcp://$DEV_HOST:2376", IMAGE_NAME, "latest", "dev", "sbms-dev-app_$JOB_NAME")
+                promoteAndUpdateRunningImage("tcp://$DEV_HOST:2376", IMAGE_NAME, "latest", "dev", "sbms-dev_$JOB_NAME")
             }
             post {
                 failure {
@@ -122,7 +122,7 @@ pipeline {
         }
         stage('Deploy to TEST') {
             steps {
-                promoteAndUpdateRunningImage("tcp://$TEST_HOST:2376", IMAGE_NAME, "dev", "test", "sbms-test-app_$JOB_NAME")
+                promoteAndUpdateRunningImage("tcp://$TEST_HOST:2376", IMAGE_NAME, "dev", "test", "sbms-test_$JOB_NAME")
             }
             post {
                 failure {
@@ -164,7 +164,7 @@ pipeline {
         }
         stage('Deploy to UAT') {
             steps {
-                promoteAndUpdateRunningImage("tcp://$UAT_HOST:2376", IMAGE_NAME, "test-passed", "uat", "sbms-uat-app_$JOB_NAME")
+                promoteAndUpdateRunningImage("tcp://$UAT_HOST:2376", IMAGE_NAME, "test-passed", "uat", "sbms-uat_$JOB_NAME")
             }
             post {
                 failure {
@@ -184,7 +184,7 @@ pipeline {
         }
         stage('Deploy to PROD') {
             steps {
-                promoteAndUpdateRunningImage("tcp://$PROD_HOST:2376", IMAGE_NAME, "rc", "prod", "sbms-prod-app_$JOB_NAME")
+                promoteAndUpdateRunningImage("tcp://$PROD_HOST:2376", IMAGE_NAME, "rc", "prod", "sbms-prod_$JOB_NAME")
             }
             post {
                 failure {
