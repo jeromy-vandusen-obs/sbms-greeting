@@ -20,7 +20,7 @@ pipeline {
         UAT_HOST = "uat"
         PROD_HOST = "prod"
 
-        IMAGE_NAME = "$DOCKER_USERNAME/$JOB_NAME"
+        IMAGE_NAME = "$DOCKER_IMAGE_PREFIX/$JOB_NAME"
     }
 
     stages {
